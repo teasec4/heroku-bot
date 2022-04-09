@@ -1,35 +1,51 @@
 import logging
-import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, RegexHandler
+from telegram import Update, ForceReply
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, RegexHandler, CallbackContext
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    level=logging.INFO)
+# Enable logging
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+)
+
+logger = logging.getLogger(__name__)
 
 TOKEN = '5256719525:AAFR0Zouz-j5R-OWLAqES7M2ZVc3QHYYn0o'
 
-updater = Updater(token=TOKEN, use_context=True)
-dispatcher = updater.dispatcher
 
 
-def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text='Im a bot, please talk to me')
-
-
-start_handler = CommandHandler('start', start)
-
-dispatcher.add_handler(start_handler)
-
-
-def echo(update, context):
-    text = 'ECHO: ' + update.message.text
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text=text)
-
-
-echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
-dispatcher.add_handler(echo_handler)
+def start(update: Update, context: CallbackContext) -> None:
+    user = update.effective_user
+    update.message.reply_markdown_v2(
+        fr'Hi {user.mention_markdown_v2()}\!',
+        reply_markup=ForceReply(selective=True)
+    )
 
 
 
-updater.start_polling()
+def help_command(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text("Help!")
+
+
+def echo(update: Update, context: CallbackContext):
+    update.message.reply_text(update.message.text)
+
+
+def main() -> None:
+    updater = Updater(TOKEN)
+    dispatcher = updater.dispatcher
+
+    # on different commands
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(CommandHandler("help", help_command))
+
+    #on non command
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+
+    #start
+    updater.start_polling()
+
+    updater.idle()
+
+
+if __name__ == '__main__':
+    main()
