@@ -1,4 +1,7 @@
 import logging
+
+import telegram
+
 import search
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, RegexHandler, CallbackContext
@@ -24,11 +27,13 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def help_command(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text("Help!")
+    update.message.reply_text(text='use <b>/help</b> command', parse_mode=telegram.ParseMode.HTML)
 
 
 def news(update:Update, context: CallbackContext)-> None:
     text = search.getNews()
+    title = search.getTitle()
+    update.message.reply_text(text='<b>{0}</b>'.format(title), parse_mode=telegram.ParseMode.HTML)
     update.message.reply_text(text)
 
 

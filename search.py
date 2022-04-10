@@ -18,8 +18,16 @@ def getNews():
 
 
 
-getNews()
+def getTitle():
+    try:
+        r = requests.get(url)
+        webpage = bs(r.content)
+        for title in webpage.select('div.content-container div.content-title--short')[0]:
+           return title
 
+
+    except Exception as e:
+        return "Sorry I can't found"
 
 
 
