@@ -27,7 +27,7 @@ def start(update: Update, context: CallbackContext) -> None:
 
 
 def help_command(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(text='use <b>/help</b> command', parse_mode=telegram.ParseMode.HTML)
+    update.message.reply_text(text='Use <b>/news</b> command', parse_mode=telegram.ParseMode.HTML)
 
 
 def news(update:Update, context: CallbackContext)-> None:
