@@ -1,4 +1,5 @@
 import logging
+import search
 from telegram import Update, ForceReply
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler, RegexHandler, CallbackContext
 
@@ -26,8 +27,13 @@ def help_command(update: Update, context: CallbackContext) -> None:
     update.message.reply_text("Help!")
 
 
-def echo(update: Update, context: CallbackContext):
-    update.message.reply_text(update.message.text)
+def news(update:Update, context: CallbackContext)-> None:
+    text = search.getNews()
+    update.message.reply_text(text)
+
+
+#def echo(update: Update, context: CallbackContext):
+ #   update.message.reply_text(update.message.text)
 
 
 def main() -> None:
@@ -37,9 +43,10 @@ def main() -> None:
     # on different commands
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help_command))
+    dispatcher.add_handler(CommandHandler("news", news))
 
     #on non command
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+  #  dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 
     #start
     updater.start_polling()
