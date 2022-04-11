@@ -39,6 +39,3 @@ def getLink():
         return a
 
 
-
-
-getLink()
