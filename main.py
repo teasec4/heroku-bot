@@ -37,6 +37,7 @@ def news(update:Update, context: CallbackContext)-> None:
     link_t = 'href="{0}"'.format(link)
     update.message.reply_text(text='<b>{0}</b>'.format(title), parse_mode=telegram.ParseMode.HTML)
     update.message.reply_text(text)
+    update.message.reply_text(link)
     update.message.reply_html(text="<a '{0}'>here</a>".format(link_t))
 
 

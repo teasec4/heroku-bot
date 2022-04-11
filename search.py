@@ -31,11 +31,13 @@ def getTitle():
 
 
 def getLink():
+    try:
         r = requests.get(url)
         webpage = bs(r.content)
         links = webpage.select('div.content--short a.content-link')
         actual_links = [link['href'] for link in links]
         a = (actual_links[0])
         return a
-
+    except Exception as e:
+        return 'Sorry'
 
