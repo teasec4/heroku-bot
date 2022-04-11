@@ -33,8 +33,10 @@ def help_command(update: Update, context: CallbackContext) -> None:
 def news(update:Update, context: CallbackContext)-> None:
     text = search.getNews()
     title = search.getTitle()
+    link = search.getLink()
     update.message.reply_text(text='<b>{0}</b>'.format(title), parse_mode=telegram.ParseMode.HTML)
     update.message.reply_text(text)
+    update.message.reply_text(text='Подробнее можно прочитать <a href="{0}">тут</a>'.format(link), parse_mode=telegram.ParseMode.HTML)
 
 
 #def echo(update: Update, context: CallbackContext):

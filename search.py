@@ -30,4 +30,22 @@ def getTitle():
         return "Sorry I can't found"
 
 
+def getLink():
+    try:
+        r = requests.get(url)
+        webpage = bs(r.content)
+        for links in webpage.select('div.content--short a.content-link'):
+            first_link =(links['href'])[0]
+            return first_link
 
+
+
+    except Exception as e:
+      return "Sorry I cant found Link"
+
+
+
+
+
+
+getLink()
